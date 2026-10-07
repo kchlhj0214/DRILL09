@@ -6,46 +6,50 @@ FRAME_COUNT = 8
 FRAME_INTERVAL = 5
 LOOP_DELAY = 0.01
 MOVE_SPEED = 5
-open_canvas(TUK_WIDTH, TUK_HEIGHT)
-tuk_ground = load_image('TUK_GROUND.png')
-character = load_image('animation_sheet.png')
 
 
-# fill here
+class Character:
+    def __init__(self):
+        self.x, self.y = TUK_WIDTH / 2, TUK_HEIGHT / 2
+        self.frame = 0
+        self.frame_tick = 0
 
-running = True
+    def update(self):
+        if self.frame_tick == 0:
+            self.frame = (self.frame + 1) % FRAME_COUNT
+        self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
 
-def handle_events():
-    # fill here
-    global running, x, y
+    def draw(self, image):
+        image.clip_draw(self.frame * FRAME_SIZE, FRAME_SIZE,
+                        FRAME_SIZE, FRAME_SIZE, self.x, self.y)
 
-    events = get_events()
+
+def handle_events(character, events):
     for event in events:
         if event.type == SDL_QUIT:
-            running = False
-        elif event.type == SDL_MOUSEMOTION:
-            x, y = event.x, TUK_HEIGHT - 1 - event.y
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            running = False
-            
+            return False
+        if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            return False
+        if event.type == SDL_MOUSEMOTION:
+            character.x, character.y = event.x, TUK_HEIGHT - 1 - event.y
+    return True
 
 
-running = True
-frame = 0
-x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
-hide_cursor()
-frame_rate = 0
-
-while running:
-    clear_canvas()
-    tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    character.clip_draw(frame * FRAME_SIZE, FRAME_SIZE, FRAME_SIZE, FRAME_SIZE, x, y)
-    update_canvas()
-    handle_events()
-    if frame_rate % FRAME_INTERVAL == 0:
-        frame = (frame + 1) % FRAME_COUNT
-    frame_rate = (frame_rate + 1) % FRAME_INTERVAL
-    delay(LOOP_DELAY)
+def main():
+    open_canvas(TUK_WIDTH, TUK_HEIGHT)
+    tuk_ground = load_image('TUK_GROUND.png')
+    image = load_image('animation_sheet.png')
+    character = Character()
+    hide_cursor()
+    while handle_events(character, get_events()):
+        character.update()
+        clear_canvas()
+        tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        character.draw(image)
+        update_canvas()
+        delay(LOOP_DELAY)
+    close_canvas()
 
 
-close_canvas()
+if __name__ == '__main__':
+    main()
