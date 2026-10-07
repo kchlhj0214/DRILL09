@@ -23,6 +23,7 @@ class Character:
 
     def update(self):
         previous_position = self.x, self.y
+        previous_animation = self.moving, self.facing
         dx = int(SDLK_RIGHT in self.pressed_keys) - int(SDLK_LEFT in self.pressed_keys)
         dy = int(SDLK_UP in self.pressed_keys) - int(SDLK_DOWN in self.pressed_keys)
         if dx:
@@ -35,6 +36,13 @@ class Character:
         self.x = max(half_size, min(self.x, TUK_WIDTH - half_size))
         self.y = max(half_size, min(self.y, TUK_HEIGHT - half_size))
         self.moving = (self.x, self.y) != previous_position
+        if (self.moving, self.facing) != previous_animation:
+            self.frame = 0
+            self.frame_tick = 0
+        else:
+            self.advance_animation()
+
+    def advance_animation(self):
         if self.frame_tick == 0:
             self.frame = (self.frame + 1) % FRAME_COUNT
         self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
