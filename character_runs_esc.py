@@ -14,6 +14,7 @@ class Character:
     def __init__(self):
         self.x, self.y = TUK_WIDTH / 2, TUK_HEIGHT / 2
         self.facing = 'right'
+        self.moving = False
         self.pressed_keys = set()
         self.frame = 0
         self.frame_tick = 0
@@ -23,6 +24,7 @@ class Character:
         dy = int(SDLK_UP in self.pressed_keys) - int(SDLK_DOWN in self.pressed_keys)
         if dx:
             self.facing = 'right' if dx > 0 else 'left'
+        self.moving = bool(dx or dy)
         length = hypot(dx, dy)
         if length:
             self.x += dx / length * MOVE_SPEED
@@ -32,7 +34,7 @@ class Character:
         self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
 
     def draw(self, image):
-        row = 1 if self.facing == 'right' else 0
+        row = (0 if self.moving else 2) + (1 if self.facing == 'right' else 0)
         image.clip_draw(self.frame * FRAME_SIZE, row * FRAME_SIZE,
                         FRAME_SIZE, FRAME_SIZE, self.x, self.y)
 
