@@ -1,6 +1,11 @@
 from pico2d import *
 
 TUK_WIDTH, TUK_HEIGHT = 1280, 1024
+FRAME_SIZE = 100
+FRAME_COUNT = 8
+FRAME_INTERVAL = 5
+LOOP_DELAY = 0.01
+MOVE_SPEED = 5
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
 tuk_ground = load_image('TUK_GROUND.png')
 character = load_image('animation_sheet.png')
@@ -34,13 +39,13 @@ frame_rate = 0
 while running:
     clear_canvas()
     tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+    character.clip_draw(frame * FRAME_SIZE, FRAME_SIZE, FRAME_SIZE, FRAME_SIZE, x, y)
     update_canvas()
     handle_events()
-    if frame_rate % 5 == 0:
-        frame = (frame + 1) % 8
-    frame_rate = (frame_rate + 1) % 5
-    delay(0.01)
+    if frame_rate % FRAME_INTERVAL == 0:
+        frame = (frame + 1) % FRAME_COUNT
+    frame_rate = (frame_rate + 1) % FRAME_INTERVAL
+    delay(LOOP_DELAY)
 
 
 close_canvas()
