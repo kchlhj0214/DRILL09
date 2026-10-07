@@ -1,3 +1,5 @@
+from math import hypot
+
 from pico2d import *
 
 TUK_WIDTH, TUK_HEIGHT = 1280, 1024
@@ -18,8 +20,10 @@ class Character:
     def update(self):
         dx = int(SDLK_RIGHT in self.pressed_keys) - int(SDLK_LEFT in self.pressed_keys)
         dy = int(SDLK_UP in self.pressed_keys) - int(SDLK_DOWN in self.pressed_keys)
-        self.x += dx * MOVE_SPEED
-        self.y += dy * MOVE_SPEED
+        length = hypot(dx, dy)
+        if length:
+            self.x += dx / length * MOVE_SPEED
+            self.y += dy / length * MOVE_SPEED
         if self.frame_tick == 0:
             self.frame = (self.frame + 1) % FRAME_COUNT
         self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
