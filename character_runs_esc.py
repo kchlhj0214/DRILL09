@@ -17,7 +17,9 @@ class Character:
 
     def update(self):
         dx = int(SDLK_RIGHT in self.pressed_keys) - int(SDLK_LEFT in self.pressed_keys)
+        dy = int(SDLK_UP in self.pressed_keys) - int(SDLK_DOWN in self.pressed_keys)
         self.x += dx * MOVE_SPEED
+        self.y += dy * MOVE_SPEED
         if self.frame_tick == 0:
             self.frame = (self.frame + 1) % FRAME_COUNT
         self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
@@ -33,7 +35,7 @@ def handle_events(character, events):
             return False
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             return False
-        if event.type == SDL_KEYDOWN and event.key in (SDLK_LEFT, SDLK_RIGHT):
+        if event.type == SDL_KEYDOWN and event.key in (SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN):
             character.pressed_keys.add(event.key)
         elif event.type == SDL_KEYUP:
             character.pressed_keys.discard(event.key)
