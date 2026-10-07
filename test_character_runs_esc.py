@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 
-import character_runs_esc as game
+import drill09_submission as game
 
 
 def key_event(key, down=True):

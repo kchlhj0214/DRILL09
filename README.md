@@ -8,10 +8,11 @@ Python과 pico2d로 구현한 1280 × 1024 방향키 이동 예제입니다.
 Python과 pico2d가 설치된 환경에서 다음 명령을 실행합니다.
 
 ```powershell
-python character_runs_esc.py
+python drill09_submission.py
 ```
 
 `animation_sheet.png`와 `TUK_GROUND.png`는 Python 파일과 같은 폴더에 있어야 합니다.
+제출용 구현은 `drill09_submission.py`이며, `character_runs_esc.py`는 수정 전 원본 예제로 보존합니다.
 이미지는 코드 파일 위치를 기준으로 읽으므로 다른 작업 폴더에서 절대 경로로 실행해도 됩니다.
 
 ## 조작

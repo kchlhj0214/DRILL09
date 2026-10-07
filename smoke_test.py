@@ -2,7 +2,7 @@
 import ctypes
 from unittest.mock import patch
 
-import character_runs_esc as game
+import drill09_submission as game
 
 
 def run_smoke_test(exit_type):
