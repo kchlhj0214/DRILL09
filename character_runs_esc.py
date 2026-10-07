@@ -63,18 +63,20 @@ def handle_events(character, events):
 
 def main():
     open_canvas(TUK_WIDTH, TUK_HEIGHT)
-    tuk_ground = load_image(str(ASSET_DIR / 'TUK_GROUND.png'))
-    image = load_image(str(ASSET_DIR / 'animation_sheet.png'))
-    character = Character()
-    hide_cursor()
-    while handle_events(character, get_events()):
-        character.update()
-        clear_canvas()
-        tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-        character.draw(image)
-        update_canvas()
-        delay(LOOP_DELAY)
-    close_canvas()
+    try:
+        tuk_ground = load_image(str(ASSET_DIR / 'TUK_GROUND.png'))
+        image = load_image(str(ASSET_DIR / 'animation_sheet.png'))
+        character = Character()
+        hide_cursor()
+        while handle_events(character, get_events()):
+            character.update()
+            clear_canvas()
+            tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+            character.draw(image)
+            update_canvas()
+            delay(LOOP_DELAY)
+    finally:
+        close_canvas()
 
 
 if __name__ == '__main__':
