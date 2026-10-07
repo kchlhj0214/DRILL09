@@ -53,7 +53,7 @@ class Character:
                         FRAME_SIZE, FRAME_SIZE, self.x, self.y)
 
 
-def handle_events(character, events):
+def handle_events(character, events, focused=True):
     for event in events:
         if event.type == SDL_QUIT:
             return False
@@ -61,11 +61,11 @@ def handle_events(character, events):
             return False
         if event.type == SDL_KEYDOWN and event.key in (SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN):
             character.pressed_keys.add(event.key)
-        elif (event.type == SDL_WINDOWEVENT
-              and event.window.event == SDL_WINDOWEVENT_FOCUS_LOST):
-            character.pressed_keys.clear()
         elif event.type == SDL_KEYUP:
             character.pressed_keys.discard(event.key)
+    # pico2d는 창 이벤트를 전달하지 않으므로 SDL의 현재 포커스를 사용한다.
+    if not focused:
+        character.pressed_keys.clear()
     return True
 
 
@@ -76,7 +76,7 @@ def main():
         image = load_image(str(ASSET_DIR / 'animation_sheet.png'))
         character = Character()
         hide_cursor()
-        while handle_events(character, get_events()):
+        while handle_events(character, get_events(), focused=bool(SDL_GetKeyboardFocus())):
             character.update()
             clear_canvas()
             tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
