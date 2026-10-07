@@ -1,4 +1,5 @@
 from math import hypot
+from pathlib import Path
 
 from pico2d import *
 
@@ -8,6 +9,7 @@ FRAME_COUNT = 8
 FRAME_INTERVAL = 5
 LOOP_DELAY = 0.01
 MOVE_SPEED = 5
+ASSET_DIR = Path(__file__).resolve().parent
 
 
 class Character:
@@ -61,8 +63,8 @@ def handle_events(character, events):
 
 def main():
     open_canvas(TUK_WIDTH, TUK_HEIGHT)
-    tuk_ground = load_image('TUK_GROUND.png')
-    image = load_image('animation_sheet.png')
+    tuk_ground = load_image(str(ASSET_DIR / 'TUK_GROUND.png'))
+    image = load_image(str(ASSET_DIR / 'animation_sheet.png'))
     character = Character()
     hide_cursor()
     while handle_events(character, get_events()):
