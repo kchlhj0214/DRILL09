@@ -31,6 +31,7 @@ class Character:
             self.y += dy / length * MOVE_SPEED
         half_size = FRAME_SIZE / 2
         self.x = max(half_size, min(self.x, TUK_WIDTH - half_size))
+        self.y = max(half_size, min(self.y, TUK_HEIGHT - half_size))
         if self.frame_tick == 0:
             self.frame = (self.frame + 1) % FRAME_COUNT
         self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
