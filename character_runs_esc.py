@@ -43,9 +43,10 @@ class Character:
             self.advance_animation()
 
     def advance_animation(self):
-        if self.frame_tick == 0:
+        self.frame_tick += 1
+        if self.frame_tick >= FRAME_INTERVAL:
             self.frame = (self.frame + 1) % FRAME_COUNT
-        self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
+            self.frame_tick = 0
 
     def draw(self, image):
         row = (0 if self.moving else 2) + (1 if self.facing == 'right' else 0)
