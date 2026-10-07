@@ -51,6 +51,9 @@ def handle_events(character, events):
             return False
         if event.type == SDL_KEYDOWN and event.key in (SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN):
             character.pressed_keys.add(event.key)
+        elif (event.type == SDL_WINDOWEVENT
+              and event.window.event == SDL_WINDOWEVENT_FOCUS_LOST):
+            character.pressed_keys.clear()
         elif event.type == SDL_KEYUP:
             character.pressed_keys.discard(event.key)
     return True
