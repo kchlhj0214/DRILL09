@@ -20,11 +20,11 @@ class Character:
         self.frame_tick = 0
 
     def update(self):
+        previous_position = self.x, self.y
         dx = int(SDLK_RIGHT in self.pressed_keys) - int(SDLK_LEFT in self.pressed_keys)
         dy = int(SDLK_UP in self.pressed_keys) - int(SDLK_DOWN in self.pressed_keys)
         if dx:
             self.facing = 'right' if dx > 0 else 'left'
-        self.moving = bool(dx or dy)
         length = hypot(dx, dy)
         if length:
             self.x += dx / length * MOVE_SPEED
@@ -32,6 +32,7 @@ class Character:
         half_size = FRAME_SIZE / 2
         self.x = max(half_size, min(self.x, TUK_WIDTH - half_size))
         self.y = max(half_size, min(self.y, TUK_HEIGHT - half_size))
+        self.moving = (self.x, self.y) != previous_position
         if self.frame_tick == 0:
             self.frame = (self.frame + 1) % FRAME_COUNT
         self.frame_tick = (self.frame_tick + 1) % FRAME_INTERVAL
